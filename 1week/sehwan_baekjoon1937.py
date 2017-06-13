@@ -57,8 +57,6 @@ if __name__ == '__main__':
         if '' in temp:
             temp.remove('')
         temp = [int(x) for x in temp]
-        while len(temp) < n:
-            temp.append(0)
 
         # add this row to the map
         bambooMap.append(temp)

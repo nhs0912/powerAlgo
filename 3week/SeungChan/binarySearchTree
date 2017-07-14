@@ -1,0 +1,70 @@
+import java.io.*;
+import java.util.*;
+
+class TreeNode {
+	int val;
+	TreeNode left;
+	TreeNode right;
+
+	public TreeNode(int x) {
+		val = x;
+	}
+}
+
+public class Main{
+	
+    private static TreeNode root = null;
+    
+    public static void main(String[] args) throws IOException{
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        
+        String rootValue = reader.readLine();
+        root = new TreeNode(Integer.parseInt(rootValue)); // root노드
+        
+        String newValue;
+        while((newValue = reader.readLine()) != null){
+            if(root != null){
+                TreeNode newNode = new TreeNode(Integer.parseInt(newValue));
+                insert(root, newNode);
+            }
+        }
+        
+        printPostOrder(root);
+    }
+    
+    public static void printPostOrder(TreeNode root){
+        if(root != null){
+        	printPostOrder(root.left);
+            printPostOrder(root.right);
+            System.out.println(root.val);
+        }
+    }
+    
+    public static void insert(TreeNode root, TreeNode newNode){
+        if(compare(root.val, newNode.val) == 1){ // root보다 큼
+            if(root.right == null){
+                root.right = newNode;
+            }
+            else{
+                root = root.right;
+                insert(root, newNode);
+            }
+        }
+        else{
+            if(root.left == null){
+                root.left = newNode;
+            }
+            else{
+                root = root.left;
+                insert(root, newNode);
+            }
+        }
+            
+    }
+    
+    public static int compare(int val1, int val2){
+        if(val2 < val1)
+            return -1;
+        else return 1;
+    }
+}

@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 public class Solution {
-	private final int BIG = 1000000000;
+	private final int BIG = 2000000000;
 	public static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	public int[] houseLocs;
-	public int[][] partialDistSum; 
+	public int[][] partialDistSum, dp; 
 	public int numHouses, numTrashCan; 
 
 	public Solution(int numHouses, int numTrashCan) {
@@ -18,6 +18,13 @@ public class Solution {
 		this.numTrashCan = numTrashCan; 
 		this.houseLocs = new int[numHouses];
 		this.partialDistSum = new int[numHouses][numHouses];
+		this.dp = new int[numHouses][numTrashCan+1];
+
+		for(int i = 0; i < numHouses; i++) {
+			for(int j = 0; j < numTrashCan+1; j++) {
+				this.dp[i][j] = Integer.MAX_VALUE; 
+			}
+		}
 	}
 
 	// read data 
@@ -69,20 +76,23 @@ public class Solution {
 	*	remaining ---> remaining number of sections to select
 	*/
 	public int findMinByDfs(int start, int end, int remaining) {
-		if(remaining == 1 && end == numHouses-1) return partialDistSum[start][end];
+		if(remaining == 1 && end == numHouses-1) {
+			dp[start][remaining] = partialDistSum[start][end];
+			return dp[start][remaining];
+		}
 		if(remaining == 0) return BIG; 
 		if(start > end) return BIG;
 		if(end >= numHouses) return BIG; 
 
-		int includeThis = findMinByDfs(start, end+1, remaining);
-		int excludeThis = partialDistSum[start][end] + findMinByDfs(end+1, end+1, remaining-1);
+		if(dp[start][remaining] == Integer.MAX_VALUE) {
+			int includeThis = findMinByDfs(start, end+1, remaining);
+			int excludeThis = partialDistSum[start][end] + findMinByDfs(end+1, end+1, remaining-1);
+			dp[start][remaining] = includeThis < excludeThis ? includeThis : excludeThis;
+		}
 
-		return includeThis < excludeThis ? includeThis : excludeThis;
+		return dp[start][remaining]; 
 	}
 
-	/*
-	*	Needs implementation 
-	*/
 	public int getMinTotalDistanceToTrashCans() {		
 		return findMinByDfs(0, 0, numTrashCan); 
 	}

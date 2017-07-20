@@ -4,23 +4,28 @@ import java.io.IOException;
 import java.util.StringTokenizer; 
 import java.util.Arrays; 
 import java.util.ArrayList; 
+import java.util.Comparator;
 
 public class Solution {
+	private class MyDist { 
+		public int dist; 
+		public int index; 
+		public MyDist(int dist, int index) {
+			this.dist = dist; 
+			this.index = index; 
+		}
+	}
+
 	public static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-	public int[] houseLocs; 
+	public int[] houseLocs, rmIndex;
 	public int numHouses, numTrashCan; 
-	public int lenSection, numLongSection; 
-	public int[] maxSumIndexArray;
-	public int maxSum;
 
 	public Solution(int numHouses, int numTrashCan) {
 		this.numHouses = numHouses; 
 		this.numTrashCan = numTrashCan; 
 		this.houseLocs = new int[numHouses];
-		this.maxSumIndexArray = new int[numTrashCan];
-		this.lenSection = numHouses / numTrashCan;
-		this.numLongSection = numHouses % numTrashCan;
-		this.maxSum = -1; 
+		this.rmIndex = new int[numTrashCan]; 
+		this.rmIndex[numTrashCan-1] = numHouses-1;
 	}
 
 	// read data 
@@ -34,6 +39,31 @@ public class Solution {
 		Arrays.sort(houseLocs); 
 	}
 	
+	public void getRmIndex() {
+		MyDist[] houseDists = new MyDist[numHouses-1];
+
+		for(int i = 0; i < numHouses-1; i++) {
+			houseDists[i] = new MyDist(houseLocs[i+1] - houseLocs[i], i);
+		}
+		// sort by dist desc
+		Arrays.sort(houseDists, new Comparator<MyDist> (){
+			@Override 
+			public int compare(MyDist o1, MyDist o2) {
+				if(o1.dist < o2.dist) 
+					return 1; 
+				else if(o1.dist > o2.dist)
+					return -1; 
+				else 
+					return 0; 
+			}
+		});
+
+		for(int i = 0; i < numTrashCan-1; i++) {
+			rmIndex[i] = houseDists[i].index; 
+		}
+
+		Arrays.sort(rmIndex); 
+	}
 	// O(n) 
 	// start and end are included. 
 	public int getTotalDist(int start, int end) {
@@ -57,98 +87,24 @@ public class Solution {
 		}
 		return sum; 
 	}
-
-	/* 
-	* arr[] ---> Array of section length 
-	* n ---> length of Array
-	* running time: O( n )
-	*/
-	public int getTotalDistAtIndex(int[] arr, int n) {
-		int sum = 0; 
-		int dist, step, index = 0; 
-		for(int i = 0; i < n-1; i++) {
-			step = arr[i]; 
-			index += step;
-			dist = houseLocs[index] - houseLocs[index-1]; 
-			sum += dist; 
-		}
-
-		return sum; 
-	}
-
-	/* 
-	* arr[]  ---> Input Array
-    * data[] ---> Temporary array to store current combination
-    * start & end ---> Staring and Ending indexes in arr[]
-    * index  ---> Current index in data[]
-    * r ---> Size of a combination to be printed 
-    */
-    public void combinationHelper(int[] arr, int n, int r, int index,
-                                int[] data, int i) {
-        // Current combination is ready.
-        if (index == r) {
-        	// generate an array that represents the combination. 
-        	int temp[] = new int[numTrashCan]; 
-        	for(int j = 0; j < numTrashCan; j++) 
-        		temp[j] = lenSection; 
-            for(int j = 0; j < r; j++)
-                temp[data[j]]++; 
-
-            // check the total dist 
-            int totalDist = getTotalDistAtIndex(temp, numTrashCan); 
-            if(totalDist > maxSum) {
-            	maxSum = totalDist; 
-            	maxSumIndexArray = temp; 
-            }
-        	return;
-        }
- 
-        // When no more elements are there to put in data[]
-        if (i >= n)
-        	return;
- 
-        // current is included, put next at next location
-        data[index] = arr[i];
-        combinationHelper(arr, n, r, index+1, data, i+1);
- 
-        // current is excluded, replace it with next (Note that
-        // i+1 is passed, but index is not changed)
-        combinationHelper(arr, n, r, index, data, i+1);
-    }
- 
-    /*
-    * The Solution function that finds all combinations C(n,k).
-    * in arr[] of size n. This function Solutionly uses combinationHelper()
-    * O( C(n, k)) 
-    */
-    public void getCombination(int n, int r) {
-    	int[] arr = new int[n]; 
-    	for(int i = 0; i < n; i++) 
-    		arr[i] = i; 
-
-        // A temporary array to store all combination one by one
-        int[] data = new int[r];
- 
-        // Print all combination using temprary array 'data[]'
-        combinationHelper(arr, n, r, 0, data, 0);
-    }
-
-	
 	/*
 	*	Needs implementation 
 	*/
 	public int getMinTotalDistanceToTrashCans() {
-		int step, index = 0, sum = 0; 
-		getCombination(numTrashCan, numLongSection); 
+		int dist, index = 0, sum = 0; 
+		getRmIndex(); 
+		if(numTrashCan < 2) {
+
+		}
 		for(int i = 0; i < numTrashCan; i++) {
-			step = maxSumIndexArray[i]; 
-			sum += getTotalDist(index, index+step-1); 
-			index += step; 
+			dist = getTotalDist(index, rmIndex[i]); 
+			index = rmIndex[i]+1; 
+			sum += dist; 
 		}
 		return sum; 
 	}
 
-	public static void Solution(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException {
 		int numTestCases = Integer.parseInt(reader.readLine());
 		for(int i = 0; i < numTestCases; i++) {
 			StringTokenizer tokenizer = new StringTokenizer(reader.readLine()); 

@@ -2,65 +2,45 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader; 
 import java.util.StringTokenizer; 
+import java.util.Scanner; 
 
 public class Main {
-	public static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+	// public static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+	public static Scanner scanner = new Scanner(System.in); 
 	public int   size;
-	// Space Complexity: O(n^2) 
+	// space complexity: O(n) 
 	public int[] nums;
-	public int[][] sums; 
 
 	public Main(int size) {
 		this.size = size; 
 		nums = new int[size];
-		sums = new int[size][size];
 	}
 
 	public void readNums() throws IOException {
-		StringTokenizer tokenizer = new StringTokenizer(reader.readLine());
-		int i = 0;
-		while(tokenizer.hasMoreTokens()) {
-			nums[i++] = Integer.parseInt(tokenizer.nextToken());
+		for(int i = 0; i < size; i++) {
+			nums[i] = scanner.nextInt(); 
 		}
-		
 	}
 
-	private int getSum(int start, int end) {
-		if(start > end) return 0; 
-		if(sums[start][end] < Integer.MAX_VALUE) {
-
-		} else {
-			sums[start][end] = nums[start] + getSum(start+1, end); 
-		}
-
-		return sums[start][end]; 
-	}
-
-	// Time Complexity: O(n^2) 
 	public int getMaxSum() {
-		for(int i = 0; i < size; i++) {
-			for(int j = 0; j < size; j++) {
-				sums[i][j] = (i == j) ?  nums[i] : Integer.MAX_VALUE; 
-			}
-		}
-
-		int index = 0;
-		int sum;
-		int max = 0; 
-
-		for(int i = 0; i < size; i++) {
-			for(int j = i; j < size; j++) {
-				sum = getSum(i, j); 
-				max = max > sum ? max : sum; 
-			}
-		}
-		return max; 	
+        int max_so_far = Integer.MIN_VALUE, max_ending_here = 0;
+ 
+        for (int i = 0; i < size; i++)
+        {
+            max_ending_here = max_ending_here + nums[i];
+            if (max_so_far < max_ending_here)
+                max_so_far = max_ending_here;
+            if (max_ending_here < 0)
+                max_ending_here = 0;
+        }
+        return max_so_far;	
 	}
 
 	public static void main(String[] args) throws IOException {
-		int size = Integer.parseInt(reader.readLine()); 
+		int size = scanner.nextInt(); 
 		Main main = new Main(size); 
 		main.readNums() ; 
 		System.out.println(main.getMaxSum()); 
+		scanner.close();
 	}
 }

@@ -4,7 +4,7 @@ import java.util.*;
 enum Gender{ // S : 0,1
     MALE(0), FEMALE(1);
 	
-	private int genderIndex;
+    private int genderIndex;
 	
     Gender(int genderIndex){
     	this.genderIndex = genderIndex;
@@ -58,8 +58,8 @@ class Student{
 
 public class Main{
 	
-	private static int STUDENT_NUM;
-	private static int ROOM_SIZE;
+    private static int STUDENT_NUM;
+    private static int ROOM_SIZE;
     
     private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     
@@ -83,10 +83,10 @@ public class Main{
             inputGender = Integer.parseInt(tokenizer.nextToken()); // S
             inputGrade = Integer.parseInt(tokenizer.nextToken()); // Y
             
-            students.add(new Student(
+            students.add(
+		    new Student(
             		Gender.getGender(inputGender),
-            		Grade.getGrade(inputGrade)
-            		));
+            		Grade.getGrade(inputGrade)));
         }
         
         return students;

@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Solution {
+class Solution { // 33..?
 	static int Answer;
 
 	public static void main(String args[]) throws Exception	{

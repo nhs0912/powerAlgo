@@ -33,7 +33,7 @@ class Main {
     }
 
     public void findPalindrome(int start, int end) throws IOException {
-        int num = 0;
+        int num = 0; //팰린드롬 1 아니면 0
         if (!checked[start][end] && !checked[end][start]) {
             if (start == end) {
                 bw.write("1\n");
@@ -61,12 +61,16 @@ class Main {
                     num = 0;
                     bw.write("0\n");
                 }
-                checked[start][end] = true;
-                checked[end][start] = true;
 
-                isPalindrome[start][end] = num;
-                isPalindrome[end][start] = num;
             }
+            checked[start][end] = true;
+            checked[end][start] = true;
+
+            isPalindrome[start][end] = num;
+            isPalindrome[end][start] = num;
+
+
+
         } else {
             bw.write(isPalindrome[start][end] + "\n");
         }

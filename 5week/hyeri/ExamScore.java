@@ -1,16 +1,5 @@
 
 import java.util.Arrays;
-
-/*
-You should use the statndard input/output
-
-in order to receive a score properly.
-
-Do not use file input and output
-
-Please be very careful. 
-*/
-
 import java.util.Scanner;
 
 class ExamScore {

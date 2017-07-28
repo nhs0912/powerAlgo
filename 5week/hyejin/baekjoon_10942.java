@@ -31,7 +31,6 @@ public class Main {
 		for(int i=0; i<M; i++) {
 			int S = sc.nextInt();
 			int E = sc.nextInt();
-			
 			palindrom(S, E);
 		}
 	}

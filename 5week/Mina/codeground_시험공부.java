@@ -4,7 +4,7 @@ import java.util.Arrays;
 // 시험 공부 (연습문제 번호 3)
 import java.util.Scanner;
 
-class Solution {
+class 시험공부 {
 	static int Answer;
 
 	public static void main(String args[]) throws Exception {
@@ -21,12 +21,10 @@ class Solution {
 			for (int i = 0; i < N; i++) {
 				point[i] = sc.nextInt();
 			}
-      
 			Arrays.sort(point);
-			
-      for (int i = 0; i < K; i++) {
+			for (int i = 0; i < K; i++) {
 				Answer += point[N - 1 - i];
-			} // K 과목의 개수 높은 점수 합계
+			}
 
 			// Print the answer to standard output(screen).
 			System.out.println("Case #" + (test_case + 1));

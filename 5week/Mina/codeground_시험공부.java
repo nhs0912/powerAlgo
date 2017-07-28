@@ -4,7 +4,7 @@ import java.util.Arrays;
 // 시험 공부 (연습문제 번호 3)
 import java.util.Scanner;
 
-class 시험공부 {
+class Solution {
 	static int Answer;
 
 	public static void main(String args[]) throws Exception {

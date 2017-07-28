@@ -25,7 +25,7 @@ public class Main {
 					room++;
 			}
 		}
-		
+
 		System.out.println(room);
 	}
 }

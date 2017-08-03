@@ -12,31 +12,25 @@ class Main {
 		}
 	}
 
-	private int min(int n1, int n2, int n3) {
-		int min = Integer.MAX_VALUE;
-		if(n1 < min && n1 > 0)
-			min = n1;  
-		if(n2 < min && n2 > 0) 
-			min = n2;
-		if(n3 < min && n3 > 0)
-			min = n3;
-		return min; 
-	}
-
 	private int helper(int n) {
 		if(n <= 1)
 			return 0; 
 		if(n == 2 || n == 3)
 			return 1; 
 
-		int n1 = 0, n2 = 0, n3; 
+		int temp, min = Integer.MAX_VALUE; 
 		if(memo[n] == 0) {
-			if(n % 3 == 0) 
-				n1 = n / 3; 
-			if(n % 2 == 0)
-				n2 = n / 2; 
-			n3 = n - 1;
-			memo[n] = 1 + min(helper(n1), helper(n2), helper(n3)); 
+			if(n % 3 == 0) {
+				temp = helper(n / 3);
+				min = min < temp ? min : temp; 
+			}
+			if(n % 2 == 0) {
+				temp = helper(n / 2);
+				min = min < temp ? min : temp; 
+			}
+			temp = helper(n - 1); 
+			min = min < temp ? min : temp; 
+			memo[n] = 1 + min; 
 		}
 
 		return memo[n];

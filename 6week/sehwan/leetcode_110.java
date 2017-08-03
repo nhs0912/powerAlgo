@@ -8,28 +8,21 @@
  * }
  */
 public class Solution {
-    private int getHeight(TreeNode root) {
+    private int dfsHeight(TreeNode root) {
         if(root == null) 
-            return 1; 
+            return 0; 
         
-        int leftHeight = 1 + getHeight(root.left); 
-        int rightHeight = 1 + getHeight(root.right); 
+        int leftHeight = dfsHeight(root.left); 
+        if (leftHeight == -1) return -1; 
+        int rightHeight = dfsHeight(root.right);
+        if (rightHeight == -1) return -1;
         
-        return leftHeight > rightHeight ? leftHeight : rightHeight; 
+        if(Math.abs(leftHeight - rightHeight) > 1)
+            return -1; 
+        return leftHeight > rightHeight ? leftHeight + 1 : rightHeight + 1; 
     }
     
     public boolean isBalanced(TreeNode root) {
-        if(root == null) return true; 
-        int leftHeight = getHeight(root.left); 
-        int rightHeight = getHeight(root.right);
-        
-        int diff = Math.abs(leftHeight - rightHeight); 
-
-        if(diff > 1) {
-            return false; 
-        }
-        else {
-            return true && isBalanced(root.left) && isBalanced(root.right);  
-        }
+        return dfsHeight(root) > -1; 
     }
 }

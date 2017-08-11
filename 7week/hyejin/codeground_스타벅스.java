@@ -7,7 +7,7 @@ class Solution {
 
 		int T = sc.nextInt();
 		for(int test_case = 0; test_case < T; test_case++) {
-      int N = sc.nextInt();	//N명의 사람
+      			int N = sc.nextInt();	//N명의 사람
 			int M = sc.nextInt();	//커피종류 개수
 			int K = sc.nextInt();	//지출 한계치
 			int[] arr = new int[M+1];

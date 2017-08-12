@@ -12,8 +12,8 @@ public class Main {
 			this.y = y; 
 		}
 
-		public boolean equals(Tuple o1, Tuple o2) {
-			return o1.x == o2.x && o1.y == o2.y; 
+		public boolean equals(Tuple o1) {
+			return o1.x == this.x && o1.y == this.y; 
 		}
 	}
 

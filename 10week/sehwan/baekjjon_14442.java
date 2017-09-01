@@ -25,10 +25,10 @@ public class Main {
 		minDistMap = new int[width][height][maxBreak + 1]; 
 
 		for(int i = 0; i < width; i++) {
-			int line = scanner.nextInt(); 
+			String line = scanner.next(); 
 			for(int j = 0; j < height; j++) {
-				wallMap[i][height - 1 - j] = line % 10; 
-				line /= 10; 
+				wallMap[i][j] = Integer.parseInt(line.substring(j, j + 1)); 
+
 				for(int k = 0 ; k < maxBreak + 1; k++) {
 					minDistMap[i][j][k] = -1; 
 				}

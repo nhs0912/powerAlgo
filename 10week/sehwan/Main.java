@@ -1,6 +1,9 @@
 import java.util.Scanner;
 import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Queue;
+import java.util.List;
+import java.util.stream.*; 
 
 public class Main {	
 	private class Point {
@@ -25,9 +28,10 @@ public class Main {
 		minDistMap = new int[width][height][maxBreak + 1]; 
 
 		for(int i = 0; i < width; i++) {
+
 			String line = scanner.next(); 
 			for(int j = 0; j < height; j++) {
-				wallMap[i][j] = Integer.parseInt(line.substring(j, j + 1)); 
+				wallMap[i][j] = (int) line.charAt(j) - '0'; 
 
 				for(int k = 0 ; k < maxBreak + 1; k++) {
 					minDistMap[i][j][k] = -1; 
@@ -71,11 +75,10 @@ public class Main {
 			}
 		}
 
-		int min = Integer.MAX_VALUE; 
-		for(int i = 0; i < maxBreak + 1; i++) {
-			if(minDistMap[width - 1][height - 1][i] != -1)
-				min = min < minDistMap[width - 1][height - 1][i] ? min : minDistMap[width - 1][height - 1][i];
-		}
+		int min = IntStream
+					.of(minDistMap[width - 1][height - 1])
+					.filter(x -> x > -1)
+					.min().getAsInt();
 
 		if(min == Integer.MAX_VALUE) 
 			return -1; 

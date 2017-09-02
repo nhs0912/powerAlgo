@@ -13,7 +13,7 @@ class Solution {
                     int subMax = 0; 
                     for(int nextPick = 0; nextPick < 4; nextPick++) {
                         if(nextPick == pick)
-                            continue
+                            continue;
                         if(memo[row + 1][nextPick] > subMax)
                             subMax = memo[row + 1][nextPick]; 
                     }

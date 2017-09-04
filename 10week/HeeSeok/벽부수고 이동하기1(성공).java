@@ -1,3 +1,4 @@
+
 import java.io.*;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -109,7 +110,7 @@ class Main {
     Point North = new Point(-1, 0);
     Point[] search = {East, West, South, North};//동서남북 순서
     int cnt = 1;
-    int breakWallCnt = 1;
+    int breakWallCnt = 0;
     int minDistance = Integer.MAX_VALUE;
 
 
@@ -190,7 +191,8 @@ class Main {
                 if (minDistance > pathWeight[p.x][p.y][p.isBreakingCnt]) {
                     minDistance = pathWeight[p.x][p.y][p.isBreakingCnt];
                 }
-                //break;
+                break;
+
             }
             for (int i = 0; i < search.length; i++) {
                 int curX = p.x + search[i].x;//x좌표
@@ -207,9 +209,7 @@ class Main {
                         //한번도 방문하지 않은 벽을 마주쳤을 때
                         point = new Point(curX, curY, p.isBreakingCnt + 1);
                         q.enQueue(point);
-                        visited[curX][curY][p.isBreakingCnt] = true;
-
-                        visited[p.x][p.y][p.isBreakingCnt + 1] = true;
+                        visited[curX][curY][p.isBreakingCnt + 1] = true;                        
                         pathWeight[curX][curY][p.isBreakingCnt + 1] = pathWeight[p.x][p.y][p.isBreakingCnt] + 1;
                     }
                 }
@@ -218,19 +218,20 @@ class Main {
     }
 
     public void inputData() throws IOException {
-        //FileInputStream fis = new FileInputStream("test.txt");
-        //BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+        FileInputStream fis = new FileInputStream("test.txt");
+        BufferedReader br = new BufferedReader(new InputStreamReader(fis));
 
 
-         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        // BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
+        breakWallCnt = Integer.parseInt(st.nextToken());
         visited = new boolean[N + 1][M + 1][breakWallCnt + 1];//방문 배열
         adjArr = new int[N + 1][M + 1];
         pathWeight = new int[N + 1][M + 1][breakWallCnt + 1];//거리 값 표시
         String str;
-        int pathLength;//경로의 길이
+        //int pathLength;//경로의 길이
         for (int i = 1; i <= N; i++) {
             str = br.readLine();
             for (int j = 0; j < str.length(); j++) {
@@ -240,11 +241,11 @@ class Main {
             }
         }
         // wallCnt = 2;
-        //printArr(adjArr);
-        //System.out.println("-------------------");
+        printArr(adjArr);
+        System.out.println("-------------------");
         BFS(1, 1);
 
-        //printArr(pathWeight);
+        printArr(pathWeight);
 
         if (minDistance == Integer.MAX_VALUE) {
             System.out.println(-1);

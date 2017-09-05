@@ -8,7 +8,7 @@ public class 뱀 {
 	static int N;
 	static int[][] mat;
 	static int[][] direction = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
-	static int time = 1;
+	static int time = 0;
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);

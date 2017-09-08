@@ -1,6 +1,6 @@
 
 public class Test1 {
-	//°¢ ÀÚ¸´¼öÀÇ ÇÕ ±¸ÇÏ±â
+	//ê° ìë¦¿ìˆ˜ì˜ í•© êµ¬í•˜ê¸°
 	public static void main(String[] args) {
 		int n =10;
 		
@@ -19,6 +19,4 @@ public class Test1 {
 		}
 		return answer;
 	}
-	
-
 }

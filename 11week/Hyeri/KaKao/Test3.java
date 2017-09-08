@@ -1,6 +1,6 @@
 
 public class Test3 {
-	//Á÷»ç°¢Çü ÁÂÇ¥±¸ÇÏ±â
+	//ì§ì‚¬ê°í˜• ì¢Œí‘œêµ¬í•˜ê¸°
 	public static void main(String[] args) {
 		int[][] v = {{1, 4}, {3, 4}, {3, 10}};
 		System.out.println(solution(v)[0]);

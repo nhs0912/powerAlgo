@@ -7,51 +7,6 @@ import java.util.ArrayDeque;
 import java.util.stream.*; 
 
 public class Main { 
-	private class DescComparator implements Comparator<Integer> {
-		@Override
-		public int compare(Integer n1, Integer n2) {
-			Deque<Integer> digits1 = new ArrayDeque<Integer>();
-			Deque<Integer> digits2 = new ArrayDeque<Integer>(); 
-
-			while(n1 > 0) {
-				digits1.addFirst(n1 % 10); 
-				n1 /= 10; 
-			}
-
-			while(n2 > 0) { 
-				digits2.addFirst(n2 % 10); 
-				n2 /= 10; 
-			}
-
-			Integer leftMostDigit1 = digits1.peekFirst();
-			Integer leftMostDigit2 = digits2.peekLast();
-
-			while(true) {
-				Integer d1 = digits1.pollFirst(); 
-				Integer d2 = digits2.pollFirst(); 
-				
-				if(d1 == null && d2 == null){
-					return 0; 
-				} else if(d1 == null && d2 != null) {
-					if(d2 < leftMostDigit1) 
-						return 1; 
-					else 
-						return -1; 
-				} else if(d1 != null && d2 == null) { 
-					if(d1 < leftMostDigit2) 
-						return -1;
-					else 
-						return 1;
-				} else {
-					if(d1 > d2) 
-						return 1; 
-					else if(d1 < d2) 
-						return -1; 
-				}
-			}
-		}
-	}
-
 	private class AscComparator implements Comparator<Integer> {
 		@Override
 		public int compare(Integer n1, Integer n2) {
@@ -69,15 +24,12 @@ public class Main {
 			}
 
 			Integer leftMostDigit1 = digits1.peekFirst();
-			Integer leftMostDigit2 = digits2.peekLast();
+			Integer leftMostDigit2 = digits2.peekFirst();
 
-			if(leftMostDigit1 == 0) {
-				return 1; 
-			}
-
-			if(leftMostDigit2 == 0) {
-				return -1; 
-			}
+			if(leftMostDigit1 == null) 
+				leftMostDigit1 = 0; 
+			if(leftMostDigit2 == null)
+				leftMostDigit2 = 0; 
 
 			while(true) {
 				Integer d1 = digits1.pollFirst(); 
@@ -87,19 +39,19 @@ public class Main {
 					return 0; 
 				} else if(d1 == null && d2 != null) {
 					if(d2 < leftMostDigit1) 
-						return -1; 
-					else 
 						return 1; 
+					else 
+						return -1; 
 				} else if(d1 != null && d2 == null) { 
 					if(d1 < leftMostDigit2) 
-						return 1;
-					else 
 						return -1;
+					else 
+						return 1;
 				} else {
 					if(d1 > d2) 
-						return -1; 
-					else if(d1 < d2) 
 						return 1; 
+					else if(d1 < d2) 
+						return -1; 
 				}
 			}
 		}
@@ -125,13 +77,30 @@ public class Main {
 									); 
 	}
 
+	private void moveLeftMostZeros(ArrayList<Integer> nums) {
+		boolean zeroExists = false; 
+		for(int i = 0; i < this.size; i++) {
+			if(nums.get(i) == 0) 
+				zeroExists = true; 
+			else {
+				if(zeroExists) {
+					Collections.swap(nums, i, 0);
+					break; 
+				}
+				else 
+					break;
+			}
+		} 
+	}
+
 	private int getMaxNum(ArrayList<Integer> nums) {
-		Collections.sort(nums, new DescComparator());
+		Collections.sort(nums, Collections.reverseOrder(new AscComparator()));
 		return appendAllIntegers(nums);
 	}
 
 	private int getMinNum(ArrayList<Integer> nums) {
 		Collections.sort(nums, new AscComparator()); 
+		moveLeftMostZeros(nums);
 		return appendAllIntegers(nums); 
 	}
 

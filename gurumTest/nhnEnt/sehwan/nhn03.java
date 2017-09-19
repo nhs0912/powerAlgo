@@ -18,22 +18,36 @@ public class Main {
     }
 
     public static int vowel(String word) {
-        for (int i = 0; i < word.length() - 1; i++) {
-            if (VOWELS.contains(word.charAt(i) + "") 
-                && VOWELS.contains(word.charAt(i + 1) + "")) {
-                return 1; 
+        boolean prev = false; 
+        for (int i = 0; i < word.length(); i++) {
+            if (VOWELS.contains(word.charAt(i) + "")) {
+                if(prev) 
+                    return 1; 
+                else 
+                    prev = true; 
+            } else {
+                prev = false; 
             }
         }
         return 0;
     }
 
     public static int consonant(String word) {
-        String str = "auieo";
-        for (int i = 0; i < word.length() - 2; i++) {
-            if (!VOWELS.contains(word.charAt(i) + "")
-                && !VOWELS.contains(word.charAt(i + 1) + "") 
-                && !VOWELS.contains(word.charAt(i + 2) + "")) {
-                return 1; 
+        boolean prevOne = false, prevTwo = false; 
+        for (int i = 0; i < word.length(); i++) {
+            if (!VOWELS.contains(word.charAt(i) + "")) {
+                if(prevOne) {
+                    if(prevTwo) {
+                        return 1; 
+                    } else {
+                        prevTwo = true; 
+                    }
+                } else { 
+                    prevOne = true; 
+                } 
+            } else {
+                prevOne = false;
+                prevTwo = false;
             }
         }
         return 0;

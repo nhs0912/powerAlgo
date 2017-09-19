@@ -127,19 +127,11 @@ public class Main {
 
 	private int getMaxNum(ArrayList<Integer> nums) {
 		Collections.sort(nums, new DescComparator());
-		for(Integer num : nums) {
-			System.out.print(num + " "); 
-		}
-		System.out.println();
 		return appendAllIntegers(nums);
 	}
 
 	private int getMinNum(ArrayList<Integer> nums) {
 		Collections.sort(nums, new AscComparator()); 
-		for(Integer num : nums) {
-			System.out.print(num + " "); 
-		}
-		System.out.println();
 		return appendAllIntegers(nums); 
 	}
 

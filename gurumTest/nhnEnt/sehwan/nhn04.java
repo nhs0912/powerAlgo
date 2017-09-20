@@ -70,8 +70,8 @@ public class Main {
 		}
 	}
 
-	private int appendAllIntegers(ArrayList<Integer> nums) { 
-		return Integer.parseInt(nums.stream()
+	private long appendAllNumbers(ArrayList<Integer> nums) { 
+		return Long.parseLong(nums.stream()
 									.map(i -> i.toString())
 									.collect(Collectors.joining())
 									); 
@@ -93,18 +93,18 @@ public class Main {
 		} 
 	}
 
-	private int getMaxNum(ArrayList<Integer> nums) {
+	private long getMaxNum(ArrayList<Integer> nums) {
 		Collections.sort(nums, Collections.reverseOrder(new AscComparator()));
-		return appendAllIntegers(nums);
+		return appendAllNumbers(nums);
 	}
 
-	private int getMinNum(ArrayList<Integer> nums) {
+	private long getMinNum(ArrayList<Integer> nums) {
 		Collections.sort(nums, new AscComparator()); 
 		moveLeftMostZeros(nums);
-		return appendAllIntegers(nums); 
+		return appendAllNumbers(nums); 
 	}
 
-	private int getMaxSum(ArrayList<Integer> nums) {
+	private long getMaxSum(ArrayList<Integer> nums) {
 		return getMaxNum(nums) + getMinNum(nums);  
 	}
 

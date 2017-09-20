@@ -13,13 +13,15 @@ class Main {
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         int N = Integer.parseInt(br.readLine());
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int[] numbers = new int[N];
-        int[] distance = new int[N - 1];
+        long[] numbers = new long[N];
+        long[] distance = new long[N - 1];
+
+
         int index = 0;
-        int shortDistance = Integer.MAX_VALUE;
-        int shortDistanceIndex = 0;
+        long shortDistance = Long.MAX_VALUE;
+        long shortDistanceIndex = 0;
         while (st.hasMoreTokens()) {
-            numbers[index++] = Integer.parseInt(st.nextToken());
+            numbers[index++] = Long.parseLong(st.nextToken());
         }
         Arrays.sort(numbers);
         index = 0;
@@ -33,10 +35,12 @@ class Main {
                 shortDistanceIndex = i;
             }
         }
-        int x = shortDistanceIndex;
-        int y = shortDistanceIndex + 1;
-//        System.out.println(numbers[x] + " " + numbers[y]);
+
+        int x = (int) shortDistanceIndex;
+        int y = (int) shortDistanceIndex + 1;
+
         bw.write(numbers[x] + " " + numbers[y]);
+
         bw.close();
     }
 }

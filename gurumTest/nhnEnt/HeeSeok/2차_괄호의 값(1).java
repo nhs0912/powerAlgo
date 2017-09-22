@@ -70,7 +70,7 @@ class Main {
         return false;
     }
 
-    boolean isBalenced(String str) {
+    boolean isBalanced(String str) {
         myStack s = new myStack();
 
         for (int i = 0; i < str.length(); i++) {
@@ -96,7 +96,7 @@ class Main {
         while (N-- > 0) {
             //StringTokenizer st = new StringTokenizer(br.readLine());
             String str = br.readLine();
-            boolean result = isBalenced(str);
+            boolean result = isBalanced(str);
             if (result) {
                 System.out.println("YES");
             }else{

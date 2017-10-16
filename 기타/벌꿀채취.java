@@ -31,15 +31,15 @@ public class Solution {
 			return currMax; 
 		}
 		int opt1 = getMaxProfit(honeys,
-		 						index + 1, 
-		 						profit + (honeys[index] * honeys[index]), 
-		 						sumWeight + honeys[index], 
-		 						currMax); 
+		 			index + 1, 
+		 			profit + (honeys[index] * honeys[index]), 
+		 			sumWeight + honeys[index], 
+		 			currMax); 
 		int opt2 = getMaxProfit(honeys, 
-								index + 1, 
-								profit, 
-								sumWeight, 
-								currMax); 
+					index + 1, 
+					profit, 
+					sumWeight, 
+					currMax); 
 
 		return Math.max(opt1, opt2); 
 	}

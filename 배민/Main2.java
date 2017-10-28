@@ -4,36 +4,111 @@ import java.util.ArrayList;
 
 class Main {
 
-  public static void main(String[] args) {
-    try(Scanner s = new Scanner(System.in))
-    {
-      int numPeople = s.nextInt();
-      int clockwise = s.nextInt();
-      int k = s.nextInt();
-      int j = s.nextInt();
-      
-      int numLeft = numPeople; 
-      
-      ArrayList<Integer> baejjangs = new ArrayList<>(); 
+    private class Interval {
+        public int x, y; 
+        public boolean lo, hi; 
 
-      for(int i = 0; i < numPeople; i++) {
-        baejjangs.add(i); 
-      }
+        public Interval(int x, int y, boolean lo, boolean hi) {
+            this.x = x; 
+            this.y = y;
+            this.lo = lo; 
+            this.hi = hi;  
+        }
 
-      int mover = clockwise == 1 ? 1 : numPeople - 1; 
-      int curr = mover; 
+        public void printInterval(int upperBound) { 
+            String lo; 
 
-      while(numLeft > 1) {
-        curr += (k - 1) * mover; 
-        curr %= numLeft;
-        numLeft--; 
-        mover = clockwise == 1 ? 1 : numLeft - 1; 
+            if(this.x <= 0) 
+                lo = "-"; 
+            else 
+                lo = this.x + ""; 
 
-        baejjangs.remove(curr); 
-        k += j; 
-      }
+            String hi; 
 
-      System.out.println(baejjangs.get(0) + 1); 
+            if(this.y >= upperBound) 
+                hi = "+"; 
+            else 
+                hi = this.y + ""; 
+
+            String loB = this.lo ? "[" : "("; 
+            String hiB = this.hi ? "]" : ")"; 
+
+            System.out.println(loB + lo + ", " + hi + hiB); 
+        }
     }
-  }
+
+    public void solve() {
+        ArrayList<Interval> intervals = new ArrayList<>(); 
+        int max = 0; 
+
+        try(Scanner s = new Scanner(System.in))
+        {
+            int n = s.nextInt();
+
+            for(int i = 0; i < n; i++)
+            {
+                int a = s.nextInt();
+                int b = s.nextInt();
+
+                max = Math.max(max, Math.max(a, b));
+
+                intervals.add(new Interval(a, b, true, true)); 
+            }
+
+            int marking[] = new int[2 * (max + 1)]; 
+
+            for(int i = 0; i < 2 * (max + 1); i++) {
+                marking[i] = 0; 
+            }
+
+            for(Interval interval : intervals) {
+                for(int i = interval.x * 2; i <= interval.y * 2; i++) {
+                    marking[i]++; 
+                }
+            }
+
+            int lo = 0; 
+            intervals = new ArrayList<>(); 
+            boolean lowerIncluded = false, prevOdd = false; 
+
+            for(int i = 0 ; i < 2 * (max + 1); i++) {
+                System.out.println(i + ": " + marking[i]);
+                if(marking[i] % 2 == 0) {
+                    if(prevOdd){
+                        if (i % 2 == 0) {
+                            lowerIncluded = true; 
+                            lo = i;
+                        } else {
+                            lowerIncluded = false; 
+                        }
+                    }
+                    
+                    prevOdd = false; 
+                } else {
+                    if(!prevOdd){
+                        if(i % 2 == 0){
+                            intervals.add(new Interval(lo / 2 , i / 2, lowerIncluded, false));
+                        }
+                        else {
+                            intervals.add(new Interval((lo + 1) / 2, i / 2, lowerIncluded, true));
+                        }
+                    }
+                    lo = i;
+                    prevOdd = true;
+                }
+            }
+
+            intervals.add(new Interval(lo / 2, max * 2, lowerIncluded, false));
+
+            for(Interval interval : intervals) {
+                interval.printInterval(max * 2); 
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        Main main = new Main(); 
+        main.solve(); 
+	}
+    
 }

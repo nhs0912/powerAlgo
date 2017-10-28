@@ -1,114 +1,68 @@
 //Please don't change class name 'Main'
 import java.util.Scanner;
-import java.util.ArrayList; 
 
 class Main {
 
-    private class Interval {
-        public int x, y; 
-        public boolean lo, hi; 
-
-        public Interval(int x, int y, boolean lo, boolean hi) {
-            this.x = x; 
-            this.y = y;
-            this.lo = lo; 
-            this.hi = hi;  
-        }
-
-        public void printInterval(int upperBound) { 
-            String lo; 
-
-            if(this.x <= 0) 
-                lo = "-"; 
-            else 
-                lo = this.x + ""; 
-
-            String hi; 
-
-            if(this.y >= upperBound) 
-                hi = "+"; 
-            else 
-                hi = this.y + ""; 
-
-            String loB = this.lo ? "[" : "("; 
-            String hiB = this.hi ? "]" : ")"; 
-
-            System.out.println(loB + lo + ", " + hi + hiB); 
-        }
+  public static void main(String[] args) {
+    try(Scanner s = new Scanner(System.in))
+    {
+      int x1 = s.nextInt();
+      int y1 = s.nextInt();
+      int x2 = s.nextInt();
+      int y2 = s.nextInt();
+      int x3 = s.nextInt();
+      int y3 = s.nextInt();
+      int x4 = s.nextInt();
+      int y4 = s.nextInt();
+      int x5 = s.nextInt();
+      int y5 = s.nextInt();
+      int x6 = s.nextInt();
+      int y6 = s.nextInt();
+      
+      int o1x, o1y, o2x, o2y, o3x, o3y, o4x, o4y, o5x, o5y, o6x, o6y; 
+      //여기부터 작성해 주세요
+      if(x4 < x1 || y4 < y1 || x2 < x3 || y2 < y3) {
+        o1x = 0; 
+        o1y = 0; 
+        o2x = 0; 
+        o2y = 0;
+      } else {
+        o1x = Math.max(x1, x3); 
+        o1y = Math.max(y1, y3); 
+        o2x = Math.min(x2, x4); 
+        o2y = Math.min(y2, y4);
+      }
+          
+      if(x6 < x1 || y6 < y1 || x2 < x5 || y2 < y5) {
+        o3x = 0; 
+        o3y = 0; 
+        o4x = 0; 
+        o4y = 0;
+      } else {
+        o3x = Math.max(x1, x5); 
+        o3y = Math.max(y1, y5); 
+        o4x = Math.min(x2, x6); 
+        o4y = Math.min(y2, y6); 
+      }
+      
+      if(o2x < o3x || o2y < o3y || o4x < o1x || o4y < o1y) {
+        o5x = 0; 
+        o5y = 0; 
+        o6x = 0; 
+        o6y = 0;
+      } else {
+        o5x = Math.max(o1x, o3x); 
+        o5y = Math.max(o1y, o3y); 
+        o6x = Math.min(o2x, o4x); 
+        o6y = Math.min(o2y, o4y); 
+      }
+      
+      int area = (x2 - x1) * (y2 - y1); 
+      area -= (o2x - o1x) * (o2y - o1y); 
+      area -= (o4x - o3x) * (o4y - o3y); 
+      area += (o6x - o5x) * (o6y - o5y); 
+      
+      System.out.println(area); 
     }
-
-    public void solve() {
-        ArrayList<Interval> intervals = new ArrayList<>(); 
-        int max = 0; 
-
-        try(Scanner s = new Scanner(System.in))
-        {
-            int n = s.nextInt();
-
-            for(int i = 0; i < n; i++)
-            {
-                int a = s.nextInt();
-                int b = s.nextInt();
-
-                max = Math.max(max, Math.max(a, b));
-
-                intervals.add(new Interval(a, b, true, true)); 
-            }
-
-            int marking[] = new int[2 * (max + 1)]; 
-
-            for(int i = 0; i < 2 * (max + 1); i++) {
-                marking[i] = 0; 
-            }
-
-            for(Interval interval : intervals) {
-                for(int i = interval.x * 2; i <= interval.y * 2; i++) {
-                    marking[i]++; 
-                }
-            }
-
-            int lo = 0; 
-            intervals = new ArrayList<>(); 
-            boolean lowerIncluded = false, prevOdd = false; 
-
-            for(int i = 0 ; i < 2 * (max + 1); i++) {
-                System.out.println(i + ": " + marking[i]);
-                if(marking[i] % 2 == 0) {
-                    if(prevOdd){
-                        if (i % 2 == 0) {
-                            lowerIncluded = true; 
-                            lo = i;
-                        } else {
-                            lowerIncluded = false; 
-                        }
-                    }
-                    
-                    prevOdd = false; 
-                } else {
-                    if(!prevOdd){
-                        if(i % 2 == 0){
-                            intervals.add(new Interval(lo / 2 , i / 2, lowerIncluded, false));
-                        }
-                        else {
-                            intervals.add(new Interval((lo + 1) / 2, i / 2, lowerIncluded, true));
-                        }
-                    }
-                    lo = i;
-                    prevOdd = true;
-                }
-            }
-
-            intervals.add(new Interval(lo / 2, max * 2, lowerIncluded, false));
-
-            for(Interval interval : intervals) {
-                interval.printInterval(max * 2); 
-            }
-        }
-    }
-
-    public static void main(String[] args) {
-        Main main = new Main(); 
-        main.solve(); 
-	}
-    
+  }
 }
